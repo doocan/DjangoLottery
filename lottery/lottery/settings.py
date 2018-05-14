@@ -37,6 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'django_celery_results',
+    'django_celery_beat',
+
     'dlt',
 ]
 
@@ -131,3 +135,11 @@ EMAIL_HOST_USER = '284018792'
 EMAIL_HOST_PASSWORD = "gcpidoxnvzevbgdf"
 EMAIL_USE_SSL = True
 EMAIL_USE_LOCALTIME = True
+
+# Celery
+CELERY_BROKER_URL = 'redis://127.0.0.1:6379/1'
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_TASK_SERIALIZER = 'msgpack'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_RESULT_EXPIRES = 60 * 60 * 24
+CELERY_ACCEPT_CONTENT = ['json', 'msgpack']

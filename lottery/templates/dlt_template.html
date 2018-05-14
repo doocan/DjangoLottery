@@ -1,12 +1,27 @@
 <table border="2">
-    <caption>大乐透<{datetime}></caption>
+    <caption>大乐透 {{ now|date:'Y-m-d H:i'|safe }}</caption>
     <tr>
         <th>前区</th>
         <th>后区</th>
     </tr>
     <tr>
-        <td>{{ a[0] }}</td>
-        <td>{{ a[1] }}</td>
+        <td>{{ A.front|join:", " }}</td>
+        <td>{{ A.back|join:", " }}</td>
     </tr>
-
+    <tr>
+        <td>{{ B.front|join:", " }}</td>
+        <td>{{ B.back|join:", " }}</td>
+    </tr>
+    <tr>
+        <td>{{ C.front|join:", " }}</td>
+        <td>{{ C.back|join:", " }}</td>
+    </tr>
+    <tr>
+        <td>{{ D.front|join:", " }}</td>
+        <td>{{ D.back|join:", " }}</td>
+    </tr>
+    <tr>
+        <td>{{ E.front|join:", " }}</td>
+        <td>{{ E.back|join:", " }}</td>
+    </tr>
 </table>
