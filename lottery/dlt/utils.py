@@ -39,32 +39,3 @@ def get_next_num():
     r = requests.post(url, data=data, headers=headers)
     num = r.json().get('items')[0].get('num')
     return int(num)+1
-
-    
-  
-
-class Task(object):
-    def __init__(self):
-        pass
-
-    def send(self):
-        send_mail('百万富翁',
-                  'Ritch Text Error.',
-                  'man_hattan@qq.com',
-                  ['i@qtitan.com'],
-                  fail_silently=False,
-                  html_message = self.message())
-
-    def message(self):
-        rendered = render_to_string('dlt_template.html', 
-                                    {'a': self.content(),
-                                     'b': self.content(),
-                                     'c': self.content(),
-                                     'now': timezone.now()})
-        return rendered
-
-    def content(self):
-        front = sorted(random.sample(range(1, 36), 5))
-        back = sorted(random.sample(range(1, 13), 2))
-        return dict(front=front, back=back)
-

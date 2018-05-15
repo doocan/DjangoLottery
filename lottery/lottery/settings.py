@@ -126,13 +126,12 @@ USE_TZ = False
 STATIC_URL = '/static/'
 
 
-
 # Email setting
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.qq.com'
 EMAIL_PORT = 465
-EMAIL_HOST_USER = '284018792'
-EMAIL_HOST_PASSWORD = "gcpidoxnvzevbgdf"
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_USE_SSL = True
 EMAIL_USE_LOCALTIME = True
 
