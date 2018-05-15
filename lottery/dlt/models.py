@@ -25,6 +25,7 @@ class DLT(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
+        ordering = ['-created']
         verbose_name = '大乐透'
         verbose_name_plural = verbose_name
 

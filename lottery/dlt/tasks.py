@@ -1,12 +1,24 @@
+import os
+
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "lottery.settings")
+
+
+import django
+
+django.setup()
+
+
 import random
 
 from celery import task, shared_task
-#from lottery import celery_app as app
-
+# from lottery import celery_app as app
+from django.conf import settings
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.core.mail import send_mail
 from django.utils import timezone
+from django.db.utils import InterfaceError
 from dlt.models import DLT 
 from dlt.utils import get_next_num
 
@@ -15,14 +27,11 @@ from dlt.utils import get_next_num
 
 @shared_task
 def dlt_create():
-    front = sorted(random.sample(range(1, 36), 5))
-    back = sorted(random.sample(range(1, 13), 2))
-
     num = get_next_num()
-
-    dlt_list = []
     
     for i in range(5):
+        front = sorted(random.sample(range(1, 36), 5))
+        back = sorted(random.sample(range(1, 13), 2))
         dlt = DLT.objects.create(a=front[0], 
                                  b=front[1],
                                  c=front[2],
@@ -31,23 +40,28 @@ def dlt_create():
                                  f=back[0],
                                  g=back[1],
                                  num=num)
-        dlt_list.append(dlt)
 
-    dlt_created.delay(dlt_list)
+    dlt_created.delay(num)
 
 
 @shared_task
-def dlt_created(dlt_list):
+def dlt_created(num):
+    try:
+        dlts = DLT.objects.filter(num=num)[:5]
+    except Exception as e: 
+        raise InterfaceError('There must be 5 items.')
+
     msg = render_to_string('dlt_template.html', 
-                           {'A': dlt_list[0],
-                            'B': dlt_list[1],
-                            'C': dlt_list[2],
-                            'D': dlt_list[3],
-                            'E': dlt_list[4],
+                           {'A': dlts[0],
+                            'B': dlts[1],
+                            'C': dlts[2],
+                            'D': dlts[3],
+                            'E': dlts[4],
                             'now': timezone.now()})
     mail_sent = send_mail('[天降祥瑞]',
                           'Ritch Text Error',
                           'man_hattan@qq.com',
-                          ['i@qtitan.com'],
-                          fail_silently=False,)
+                          settings.EMAIL_TO,
+                          fail_silently=False,
+                          html_message=msg)
     return mail_sent
