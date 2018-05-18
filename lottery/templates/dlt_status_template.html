@@ -3,11 +3,13 @@
     <tr>
         <th>前区</th>
         <th>后区</th>
+        <th>zhuangtai</th>
     </tr>
     {% for dlt in dlts %}
         <tr>  
             <td>{{ dlt.a }} {{ dlt.b }} {{ dlt.c }} {{ dlt.d }} {{ dlt.e }}</td>
             <td>{{ dlt.f }} {{ dlt.g }}</td>
+            <td>{{ dlt.get_status_display }}</td>
         </tr>
     {% endfor %}
 </table>

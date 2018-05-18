@@ -1,5 +1,11 @@
 from django.db import models
-from django.db.utils import InterfaceError
+
+
+class Tag(models.Model):
+    num = models.IntegerField()
+
+    def __str__(self):
+        return f"<Tag: {self.num}>"
 
 
 class DLT(models.Model):
@@ -26,8 +32,8 @@ class DLT(models.Model):
 
     class Meta:
         ordering = ['-created']
-        verbose_name = '大乐透'
-        verbose_name_plural = verbose_name
+        # verbose_name = '大乐透'
+        # verbose_name_plural = verbose_name
 
     def __str__(self):
         return f'<DLT: {self.num}>'
@@ -46,61 +52,9 @@ class ActDlt(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        verbose_name = '大乐透开奖'
-        verbose_name_plural = verbose_name
+        pass
+        # verbose_name = '大乐透开奖'
+        # verbose_name_plural = verbose_name
 
     def __str__(self):
-        return f'<ActDlt: {self.num} on {self.published}>'
-
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        self.dlt_handle()
-
-    def dlt_handle(self):
-        dlt_list = DLT.objects.filter(num=self.num)
-
-        if len(dlt_list):
-            for dlt in dlt_list:
-                dlt.status = self._dlt_handle(dlt)
-                dlt.save()
-                
-    def _dlt_handle(self, dlt):
-        if not isinstance(dlt, DLT):
-            raise InterfaceError('Argument dlt must be a instance of <DLT>.')
-
-        front = set([dlt['a'], dlt['b'], dlt['c'], dlt['d'], dlt['e']])
-        back = set(dlt['f'], dlt['g'])
-        front_act = set([self['a'], self['b'], self['c'], self['d'], self['e']])
-        back_act = set([self['f'], self['g']])
-
-        r1 = len(front & front_act)
-        r2 = len(back & back_act)
-
-        if r1==5 and r2==2:
-            return '1'
-        elif r1==5 and r2==1:
-            return '2'
-        elif r1==5:
-            return '3'
-        elif r1==4 and r2==2:
-            return '3'
-        elif r1==4 and r2==1:
-            return '4'
-        elif r1==3 and r2==2:
-            return '4'
-        elif r1==4:
-            return '5'
-        elif r1==3 and r1==1:
-            return '5'
-        elif r1==2 and r2==2:
-            return '5'
-        elif r1==3:
-            return '6'
-        elif r1==2 and r2==1:
-            return '6'
-        elif r1==1 and r2==2:
-            return '6'
-        elif r2==2:
-            return '6'
-        else:
-            return '0'
+        return f'<ActDlt: {self.num} on {self.published}>' 
