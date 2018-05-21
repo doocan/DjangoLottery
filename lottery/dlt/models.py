@@ -7,6 +7,9 @@ class Tag(models.Model):
     def __str__(self):
         return f"<Tag: {self.num}>"
 
+    class Meta:
+        ordering = ('num', )
+
 
 class DLT(models.Model):
     STATUS = (
@@ -36,7 +39,7 @@ class DLT(models.Model):
         # verbose_name_plural = verbose_name
 
     def __str__(self):
-        return f'<DLT: {self.num}>'
+        return f'{self.num}'
 
 
 class ActDlt(models.Model):
@@ -57,4 +60,4 @@ class ActDlt(models.Model):
         # verbose_name_plural = verbose_name
 
     def __str__(self):
-        return f'<ActDlt: {self.num} on {self.published}>' 
+        return f'{self.num} on {self.published}' 

@@ -9,6 +9,7 @@ from dlt.models import DLT, ActDlt
 @receiver(post_save, sender=ActDlt, dispatch_uid='dlt_status_handler')
 def dlt_status_handler(sender, **kwargs):
     instance = kwargs.get('instance')
+
     num = instance.num
     dlts = DLT.objects.filter(num=num)
 
@@ -41,6 +42,7 @@ def _dlt_handler(instance, dlt):
     r1 = len(front & front_act)
     r2 = len(back & back_act)
 
+
     # if r1 == 5:
     #     if r2 == 2:
     #         return '1'
@@ -69,29 +71,29 @@ def _dlt_handler(instance, dlt):
 
     if r1==5 and r2==2:
         return '1'
-    elif r1==5 and r2==1:
+    if r1==5 and r2==1:
         return '2'
-    elif r1==5:
+    if r1==5:
         return '3'
-    elif r1==4 and r2==2:
+    if r1==4 and r2==2:
         return '3'
-    elif r1==4 and r2==1:
+    if r1==4 and r2==1:
         return '4'
-    elif r1==3 and r2==2:
+    if r1==3 and r2==2:
         return '4'
-    elif r1==4:
+    if r1==4:
         return '5'
-    elif r1==3 and r1==1:
+    if r1==3 and r1==1:
         return '5'
-    elif r1==2 and r2==2:
+    if r1==2 and r2==2:
         return '5'
-    elif r1==3:
+    if r1==3:
         return '6'
-    elif r1==2 and r2==1:
+    if r1==2 and r2==1:
         return '6'
-    elif r1==1 and r2==2:
+    if r1==1 and r2==2:
         return '6'
-    elif r2==2:
+    if r2==2:
         return '6'
-    else:
-        return '0'
+
+    return '0'
