@@ -5,7 +5,7 @@ class Tag(models.Model):
     num = models.IntegerField()
 
     def __str__(self):
-        return f"<Tag: {self.num}>"
+        return f"{self.num}"
 
     class Meta:
         ordering = ('num', )
