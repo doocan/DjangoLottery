@@ -1,0 +1,22 @@
+FROM python:3.6.2
+
+ENV PIP https://pypi.douban.com/simple
+
+COPY requirements.txt /root
+
+RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak && \
+    echo "deb http://mirrors.aliyun.com/ubuntu/ xenial main restricted" > /etc/apt/sources.list && \
+    echo "deb http://mirrors.aliyun.com/ubuntu/ xenial-updates main restricted" >> /etc/apt/sources.list && \
+    echo "deb http://mirrors.aliyun.com/ubuntu/ xenial-updates universe" >> /etc/apt/sources.list && \
+    echo "deb http://mirrors.aliyun.com/ubuntu/ xenial multiverse" >> /etc/apt/sources.list && \
+    echo "deb http://mirrors.aliyun.com/ubuntu/ xenial-updates multiverse" >> /etc/apt/sources.list && \
+    echo "deb http://mirrors.aliyun.com/ubuntu/ xenial-backports main universe multiverse restricted" >> /etc/apt/sources.list && \
+    echo "deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted" >> /etc/apt/sources.list && \
+    echo "deb http://mirrors.aliyun.com/ubuntu/ xenial-security universe" >> /etc/apt/sources.list && \
+    echo "deb http://mirrors.aliyun.com/ubuntu/ xenial-security multiverse" >> /etc/apt/sources.list && \
+    apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 8D5A09DC9B929006 && \
+    apt-get update -qq && \
+    apt-get upgrade -qq && \
+    apt-get install -y sqlite3 && \
+    pip install -i $PIP -U pip && \
+    pip install -i $PIP -r /root/requirements.txt

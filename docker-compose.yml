@@ -1,0 +1,61 @@
+version: '2'
+services:
+  
+  redis:
+    image: "redis:4.0.2"
+    volumes:
+      - ./composes/redis/data:/data
+      - ./composes/redis/etc:/data/etc
+    working_dir: "/data"
+    ports: 
+      - "6379:6379"
+    command: redis-server /data/etc/redis.conf
+
+  web:
+    build:
+      context: ./composes/web
+      dockerfile: Dockerfile
+    depends_on:
+      - redis
+    volumes:
+      - ./composes/pip:/root/.pip
+      - ./lottery:/root/lottery
+    ports:
+      - "8000:8000"
+    working_dir: '/root/lottery'
+    environment:
+      - EMAIL_HOST_USER
+      - EMAIL_HOST_PASSWORD
+    command: ./run_web.sh
+  
+  celery-worker:
+    build:
+      context: ./composes/web
+      dockerfile: Dockerfile
+    depends_on:
+      - redis
+      - web
+    volumes:
+      - ./composes/pip:/root/.pip
+      - ./lottery:/root/lottery
+    working_dir: '/root/lottery'
+    environment:
+      - EMAIL_HOST_USER
+      - EMAIL_HOST_PASSWORD
+    command: celery -A lottery worker -l info
+
+  celery-beat:
+    build:
+      context: ./composes/web
+      dockerfile: Dockerfile
+    depends_on:
+      - redis
+      - web
+    volumes:
+      - ./composes/pip:/root/.pip
+      - ./lottery:/root/lottery
+    working_dir: '/root/lottery'
+    environment:
+      - EMAIL_HOST_USER
+      - EMAIL_HOST_PASSWORD
+    command: celery -A lottery beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler

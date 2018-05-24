@@ -11,13 +11,15 @@ django.setup()
 from datetime import datetime
 
 import requests
-from fake_useragent import UserAgent
+from faker import Faker
 from celery import shared_task
 
 from dlt.models import Tag, ActDlt
 
 
 url = "http://www.js-lottery.com/PlayZone/ajaxLottoData"
+
+fake = Faker()
 
 
 @shared_task
@@ -36,7 +38,7 @@ def get_current_num():
         'all_count': 0,
         'num': None
     }
-    headers = {'user-agent': UserAgent().random}
+    headers = {'user-agent': fake.user_agent()}
     r = requests.post(url, data=data, headers=headers)
     num = r.json().get('items')[0].get('num')
     return int(num)
@@ -53,7 +55,7 @@ def dlt_crawl(num):
         'all_count': 0,
         'num': num
     }
-    headers = {'user-agent': UserAgent().random}
+    headers = {'user-agent': fake.user_agent()}
     r = requests.post(url, data=data, headers=headers)
     try:
         items = r.json().get('items')[0]
