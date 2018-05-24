@@ -17,7 +17,7 @@ docker-compose up
 EMAIL_TO = ['test@test.com']
 ```
 
-## Quicj Start
+## Quick Start
 
 ```bash
 docker-compose run djangolottery_web python manage.py shell
