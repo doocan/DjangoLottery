@@ -14,8 +14,10 @@ RUN mv /etc/apt/sources.list /etc/apt/sources.list.bak && \
     echo "deb http://mirrors.aliyun.com/ubuntu/ xenial-security main restricted" >> /etc/apt/sources.list && \
     echo "deb http://mirrors.aliyun.com/ubuntu/ xenial-security universe" >> /etc/apt/sources.list && \
     echo "deb http://mirrors.aliyun.com/ubuntu/ xenial-security multiverse" >> /etc/apt/sources.list && \
+    apt-key adv --recv-keys --keyserver keyserver.Ubuntu.com 40976EAF437D05B5 && \
+    apt-key adv --recv-keys --keyserver keyserver.Ubuntu.com 3B4FE6ACC0B21F32 && \
     apt-get update -qq && \
     apt-get upgrade -qq && \
-    apt-get install -y sqlite3 && \
+    apt-get install -y --force-yes sqlite3 && \
     pip install -i $PIP -U pip && \
     pip install -i $PIP -r /root/requirements.txt
