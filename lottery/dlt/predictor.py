@@ -6,7 +6,7 @@ import django
 
 django.setup()
 
-
+import time
 import random
 
 from push.tasks import dlt_push
@@ -27,4 +27,6 @@ def create(num=num, count=5):
                                  f=back[0],
                                  g=back[1],
                                  num=num)
+        time.sleep(random.random())
+        
     dlt_push.delay(num, count)
