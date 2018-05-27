@@ -1,0 +1,11 @@
+FROM python:3.6.2
+
+ENV PIP https://pypi.douban.com/simple
+
+COPY requirements.txt /root
+
+RUN apt-get update -qq && \
+    apt-get upgrade -qq && \
+    apt-get install -y --force-yes sqlite3 && \
+    pip install -i $PIP -U pip && \
+    pip install -i $PIP -r /root/requirements.txt
