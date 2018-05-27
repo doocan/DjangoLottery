@@ -14,7 +14,7 @@ services:
   web:
     build:
       context: ./composes/web
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile_bak
     depends_on:
       - redis
     volumes:
