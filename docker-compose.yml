@@ -21,7 +21,7 @@ services:
       - ./composes/pip:/root/.pip
       - ./lottery:/root/lottery
     ports:
-      - "8000:8000"
+      - "80:8000"
     working_dir: '/root/lottery'
     environment:
       - EMAIL_HOST_USER
