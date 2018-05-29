@@ -13,7 +13,10 @@ from push.tasks import dlt_push
 from .models import DLT, Tag
 
 
-num = Tag.objects.last().num
+try:
+    num = Tag.objects.last().num
+except:
+    num = 0
 
 def create(num=num, count=5):
     for i in range(count):

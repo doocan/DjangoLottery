@@ -25,7 +25,7 @@ SECRET_KEY = '2swx@kd+j@&36v!e5(-07w8*x(+5nz1nt4u1*zdj*5@%$t%z++'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['qtitan.com', 'www.qtitan.com']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -95,7 +95,7 @@ DATABASES = {
         'USER': 'django',
         'PASSWORD': 'django',
         'HOST': 'mysql',
-        'PORT': '3306'
+        'PORT': 3306,
     }
 }
 
