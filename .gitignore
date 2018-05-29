@@ -103,5 +103,5 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-# docker
-composes/mysql/data/
+# docker mysql
+composes/mysql/data/*
