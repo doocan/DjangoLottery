@@ -12,8 +12,9 @@ services:
     command: redis-server /data/etc/redis.conf
 
   mysql:
-    image: "mysql:8.0.11"
+    image: "mysql:5.7.20"
     volumes:
+      # - ./composes/mysql/conf:/etc/mysql/conf.d
       - ./composes/mysql/data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: rootroot
@@ -26,9 +27,10 @@ services:
   web:
     build:
       context: ./composes/web
-      dockerfile: Dockerfile_bak
+      dockerfile: Dockerfile
     depends_on:
       - redis
+      - mysql
     volumes:
       - ./composes/pip:/root/.pip
       - ./lottery:/root/lottery
@@ -47,6 +49,7 @@ services:
     depends_on:
       - redis
       - web
+      - mysql
     volumes:
       - ./composes/pip:/root/.pip
       - ./lottery:/root/lottery
@@ -63,6 +66,7 @@ services:
     depends_on:
       - redis
       - web
+      - mysql
     volumes:
       - ./composes/pip:/root/.pip
       - ./lottery:/root/lottery

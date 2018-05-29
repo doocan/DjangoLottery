@@ -8,4 +8,4 @@ pytz==2018.4
 redis==2.10.6
 requests==2.18.4
 six==1.11.0
-
+pymysql==0.8.1
