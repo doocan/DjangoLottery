@@ -2,9 +2,11 @@ FROM python:3.6.2
 
 ENV PIP https://pypi.douban.com/simple
 
+COPY apt/sources.list /etc/apt/
 COPY requirements.txt /root
 
-RUN apt-get update -qq && \
+RUN apt-key adv --keyserver http://mirrors.aliyun.com --recv-keys 40976EAF437D05B5 && \
+    apt-get update -qq && \
     apt-get upgrade -qq && \
     apt-get install -y --force-yes sqlite3 && \
     pip install -i $PIP -U pip && \

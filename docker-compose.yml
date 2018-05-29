@@ -11,6 +11,18 @@ services:
       - "6379:6379"
     command: redis-server /data/etc/redis.conf
 
+  mysql:
+    image: "mysql:8.0.11"
+    volumes:
+      - ./composes/mysql/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootroot
+      MYSQL_DATABASE: django
+      MYSQL_USER: django
+      MYSQL_PASSWORD: django
+    ports:
+      - "3306:3306"
+
   web:
     build:
       context: ./composes/web
